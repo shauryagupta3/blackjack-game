@@ -1,9 +1,9 @@
+var balance = 0;
+var bet = 0;
 let dealersum = 0;
 let playersum = 0;
 let deck = [];
 let win = true;
-bet = document.getElementById("bet").value;
-balance = document.getElementById("deposit").value;
 imgbox = document.querySelectorAll(".card");
 reset = false;
 
@@ -151,23 +151,36 @@ getCardValue = (card) => {
 
 document.getElementById("submitdeposit").onclick = () => {
   balance = document.getElementById("deposit").value;
+  balance = parseInt(balance);
+  console.log(balance);
   document.getElementById("displayBalance").innerText = balance;
 };
 
-document.getElementById("submitbet").onclick = () => {
-  if (document.getElementById("bet").value > balance) {
-    alert("You don't have enough money!");
+var h = document.getElementById("submitbet");
+console.log(h);
+h.addEventListener("click", checkbet);
+
+function checkbet() {
+  bet = document.getElementById("bet").value;
+  bet = parseInt(bet);
+  console.log(bet);
+  console.log(balance);
+  if (balance > bet) {
+    submitBet();
   } else {
-    bet = document.getElementById("bet").value;
-    balance -= bet;
-    document.getElementById("displayBalance").innerText = balance;
-    document.getElementById("displayBet").innerText = bet;
-    document.getElementById("displaysum").innerText = playersum;
-    buildDeck();
-    shuffleDeck(deck);
-    startGame();
+    alert("You don't have enough money!");
   }
-};
+}
+
+function submitBet() {
+  balance -= bet;
+  document.getElementById("displayBalance").innerText = balance;
+  document.getElementById("displayBet").innerText = bet;
+  document.getElementById("displaysum").innerText = playersum;
+  buildDeck();
+  shuffleDeck(deck);
+  startGame();
+}
 
 removeCards = () => {
   if (reset === true) {
